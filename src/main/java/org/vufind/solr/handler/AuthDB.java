@@ -26,18 +26,24 @@ public class AuthDB
     private String preferredHeadingField;
     private String useInsteadHeadingField;
     private String seeAlsoHeadingField;
+    private String broaderHeadingField;
+    private String narrowerHeadingField;
     private String scopeNoteField;
 
     public AuthDB(SolrIndexSearcher authSearcher,
                   String preferredField,
                   String useInsteadField,
                   String seeAlsoField,
+                  String broaderField,
+                  String narrowerField,
                   String noteField)
     {
         searcher = authSearcher;
         preferredHeadingField = preferredField;
         useInsteadHeadingField = useInsteadField;
         seeAlsoHeadingField = seeAlsoField;
+        broaderHeadingField = broaderField;
+        narrowerHeadingField = narrowerField;
         scopeNoteField = noteField;
     }
 
@@ -75,7 +81,6 @@ public class AuthDB
         TopDocs results = (searcher.search(new TermQuery(new Term(useInsteadHeadingField,
                                            heading)),
                                            MAX_PREFERRED_HEADINGS));
-
         List<Document> result = new ArrayList<> ();
 
         StoredFields storedFields = searcher.getIndexReader().storedFields();
@@ -96,11 +101,21 @@ public class AuthDB
 
         itemValues.put("seeAlso", new ArrayList<String>());
         itemValues.put("useInstead", new ArrayList<String>());
+        itemValues.put("broader", new ArrayList<String>());
+        itemValues.put("narrower", new ArrayList<String>());
         itemValues.put("note", new ArrayList<String>());
 
         if (authInfo != null) {
             for (String value : docValues(authInfo, seeAlsoHeadingField)) {
                 itemValues.get("seeAlso").add(value);
+            }
+
+            for (String value : docValues(authInfo, broaderHeadingField)) {
+                itemValues.get("broader").add(value);
+            }
+            
+            for (String value : docValues(authInfo, narrowerHeadingField)) {
+                itemValues.get("narrower").add(value);
             }
 
             for (String value : docValues(authInfo, scopeNoteField)) {
@@ -113,6 +128,14 @@ public class AuthDB
             for (Document doc : preferredHeadings) {
                 for (String value : docValues(doc, preferredHeadingField)) {
                     itemValues.get("useInstead").add(value);
+                }
+
+                for (String value : docValues(doc, broaderHeadingField)) {
+                    itemValues.get("broader").add(value);
+                }
+                
+                for (String value : docValues(doc, narrowerHeadingField)) {
+                    itemValues.get("narrower").add(value);
                 }
             }
         }

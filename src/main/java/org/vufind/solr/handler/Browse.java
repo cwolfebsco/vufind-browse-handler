@@ -51,6 +51,18 @@ class Browse
         }
         item.setUseInstead(useInsteadList);
 
+        List<String> broaderList = new ArrayList<String>();
+        for (String value : authFields.get("broader")) {
+            broaderList.add(value);
+        }
+        item.setBroader(broaderList);
+
+        List<String> narrowerList = new ArrayList<String>();
+        for (String value : authFields.get("narrower")) {
+            narrowerList.add(value);
+        }
+        item.setNarrower(narrowerList);
+
         for (String value : authFields.get("note")) {
             item.setNote(value);
         }

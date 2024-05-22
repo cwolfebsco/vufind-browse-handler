@@ -179,6 +179,8 @@ public class BrowseRequestHandler extends RequestHandlerBase
                                         solrParams.get("preferredHeadingField"),
                                         solrParams.get("useInsteadHeadingField"),
                                         solrParams.get("seeAlsoHeadingField"),
+                                        solrParams.get("broaderHeadingField"),
+                                        solrParams.get("narrowerHeadingField"),
                                         solrParams.get("scopeNoteField")),
                                        source.retrieveBibId,
                                        source.maxBibListSize);

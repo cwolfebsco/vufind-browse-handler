@@ -118,6 +118,16 @@ public class BrowseItem extends HashMap<String, Object>
         this.put("useInstead", useInstead);
     }
 
+    public void setBroader(List<String> broader)
+    {
+        this.put("broader", broader);
+    }
+
+    public void setNarrower(List<String> narrower)
+    {
+        this.put("narrower", narrower);
+    }
+
     public void setNote(String note)
     {
         this.put("note", note);
@@ -163,6 +173,18 @@ public class BrowseItem extends HashMap<String, Object>
     public List<String> getUseInstead()
     {
         return optListString((List<String>) this.get("useInstead"));
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getBroader()
+    {
+        return optListString((List<String>) this.get("broader"));
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getNarrower()
+    {
+        return optListString((List<String>) this.get("narrower"));
     }
 
     public String getNote()
